@@ -25,7 +25,17 @@ const corsOptions = {
     origin: process.env.FRONTEND_URL || function (origin, callback) {
       // Allow all origins when FRONTEND_URL is not set (development)
       // This allows localhost connections during development
-      callback(null, true);
+      const allowedOrigins = [
+        'http://localhost:5173', // Vite's default dev port
+        'http://localhost:4173', // Vite's default preview port
+        'w-allfit-frontend.vercel.app', // Add your deployed frontend URL
+      ];
+
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
     },
     credentials: true,
     optionsSuccessStatus: 200
@@ -55,9 +65,6 @@ app.use("/api/favorites", favoriteRoutes);
 app.use("/api/mood", moodRoutes);
 app.use("/api", healthRoutes);
 
-app.get("/", (req, res) => {
-    res.send("API is running...");
-});
 
 // Error handling (must be last)
 app.use(notFoundHandler);
