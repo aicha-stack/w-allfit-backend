@@ -13,6 +13,9 @@ import favoriteRoutes from "./routes/favoriteRoutes.js";
 import moodRoutes from "./routes/moodRoutes.js";
 import healthRoutes from "./routes/healthRoutes.js";
 import { errorHandler, notFoundHandler } from "./middlewares/errorHandler.js";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const app = express();
 
